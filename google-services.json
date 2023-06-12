@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "298661826676",
+    "project_id": "feher-b2841",
+    "storage_bucket": "feher-b2841.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:298661826676:android:2d81d3c2003c071ae00121",
+        "android_client_info": {
+          "package_name": "com.anod26.feher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "298661826676-hgpnrm36lm9nmo7t80kiid8gpk7dsqii.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcfvyKDRR5BbA7hSURXAj3I3hUJ-7TLz8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "298661826676-hgpnrm36lm9nmo7t80kiid8gpk7dsqii.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

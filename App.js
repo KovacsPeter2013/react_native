@@ -1,13 +1,22 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View,Image, ScrollView } from 'react-native';
+import Splash from './src/screens/auth/Splash';
+import Signup from './src/screens/auth/Signup';
+import Signin from './src/screens/auth/Signin';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+
+const App = ()=> {
+
+  return (  
+  
+        <SafeAreaView>  
+          <ScrollView>
+            <Signin/>
+          </ScrollView>
+        </SafeAreaView>
+  
+  )
 }
 
 const styles = StyleSheet.create({
@@ -18,3 +27,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App;
