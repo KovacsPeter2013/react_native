@@ -7,7 +7,7 @@ import Signin from './src/screens/auth/Signin';
 
 
 const App = ()=> {
-
+  // teszt
   return (  
   
         <SafeAreaView>  
