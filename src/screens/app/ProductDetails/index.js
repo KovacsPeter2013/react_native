@@ -11,6 +11,7 @@ const ProductDetails = ({ route, navigation })=>{
     // a rotue meg adatokat...console.log(navigation) vagy console.log(route)
     
     const {product} = route?.params || {};
+    
     //console.log(product)
 
     const onBackPress = () => {
