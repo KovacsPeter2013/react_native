@@ -118,12 +118,6 @@ const App = ()=> {
     </Stack.Navigator>
   </NavigationContainer>
 </SafeAreaProvider>
-
  );
-
-
-
 }
-
-
 export default App;
