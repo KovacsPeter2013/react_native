@@ -97,8 +97,6 @@ const App = ()=> {
     </SafeAreaProvider>
   );
 */
-
-
   return (
   <SafeAreaProvider>
   <NavigationContainer theme={theme}>
