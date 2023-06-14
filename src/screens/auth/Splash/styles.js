@@ -35,6 +35,11 @@ export const styles = StyleSheet.create({
     },
     titleContainer:{
         marginVertical: 54    
+    },
+    buttonContainer: { 
+        width: '100%', 
+        flexDirection:'row'
     }
+
 
 }) 

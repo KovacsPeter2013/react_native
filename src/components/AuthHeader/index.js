@@ -4,6 +4,8 @@ import {styles} from './styles';
 
 
 // Figyelem. Így kívülről is be lehet adni az onBackPress-t
+// Hogy az  onBackPress-re mi történjen, az abban a file-ban van meghatározva, ahol az AuthHeader komponens
+// fel va használva
 const AuthHeader = ({ title, onBackPress }) => {
     return(
         <View style={styles.container}>
