@@ -1,8 +1,9 @@
-import React, { useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import { Text,Image, View, Pressable } from "react-native";
 import { styles } from "./styles";
 import Button from "../../../components/Button";
 import { useNavigation } from "@react-navigation/native";
+import { UserContext } from "../../../../App";
 
 
 
@@ -10,7 +11,17 @@ import { useNavigation } from "@react-navigation/native";
 
 const Splash = () => {
 
-
+/*
+    Figyelem. User context elérése App.js-ből
+    Itt pl objektumba van téve
+    Tehát innen tudom használni itt akármelyik funkióban.
+     pl const onSignUp = () => {  
+        setUser(akármi) 
+  }
+*/
+    const {user} = useContext(UserContext);
+    console.log('UserContext Splash Screen:', user);
+    
     
     const navigation = useNavigation();
     useLayoutEffect(() => {
@@ -22,6 +33,7 @@ const Splash = () => {
 
 
       const onSignUp = () => {  
+   
         navigation.navigate('Regisztráció')
       }
 
@@ -52,4 +64,4 @@ const Splash = () => {
     
 }
 
-export default Splash;
+export default React.memo(Splash);

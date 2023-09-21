@@ -1,13 +1,15 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {styles} from "./styles";
 import { FlatList, ScrollView, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Header from "../../../components/Header";
 import {categories}  from "../../../data/categories";
-import {products}  from "../../../data/products";
+
 import CategoryBox from "../../../components/CategoryBox";
 import ProductHomeItem from "../../../components/ProductHomeItem";
+import { ServicesContext } from "../../../../App";
+import axios from "axios";
 
 
 
@@ -15,27 +17,54 @@ const Home = ({ navigation })=>{
 
     //const navigation = useNavigation();
     const [selectedCategory, setSelectedCategory] = useState();
-    const [filteredProduct, setfilteredProduct] = useState(products);
+    const [filteredProduct, setfilteredProduct] = useState(services);
     const [keyword, setkeyword] = useState();    
-
+    const {services, setServices} = useContext(ServicesContext);
     
+    //console.log('Services----------->', services);
+
+
+    const getServices = async () => {
+        try {
+      
+          const response = await axios.get('http://192.168.0.22/reactnativeAPI/getAllProducts.php', {
+      
+          });
+          //console.log(response.data);             
+        
+          return response.data;
+        } catch (e) {
+          console.log('error :>> ', e);
+        
+        }
+      };
+
+    useEffect(() => {
+        (async() => {
+            const data = await getServices();
+            setServices(data);
+        })()
+
+    }, [])
+
+
 
     // Filterezés kategória kis képekre érintéskor
     useEffect(() => {
         if(selectedCategory && !keyword){
-        const updatedProducts = products.filter((product) => product?.category === selectedCategory);
+        const updatedProducts = services.filter((product) => product?.category == selectedCategory);
         setfilteredProduct(updatedProducts)
     } else if(selectedCategory && keyword){
-        const updatedProducts = products.filter((product) => product?.category === selectedCategory && product?.title?.toLowerCase().includes(keyword?.toLowerCase()) );
+        const updatedProducts = services.filter((product) => product?.category == selectedCategory && product?.title?.toLowerCase().includes(keyword?.toLowerCase()) );
         setfilteredProduct(updatedProducts);
     } else if(!selectedCategory && keyword){
-        const updatedProducts = products.filter((product) =>  product?.title?.toLowerCase().includes(keyword?.toLowerCase()));
+        const updatedProducts = services.filter((product) =>  product?.title?.toLowerCase().includes(keyword?.toLowerCase()));
         setfilteredProduct(updatedProducts);
         
     } else if(!keyword && !selectedCategory){        
-        setfilteredProduct(products)
+        setfilteredProduct(services)
         }
-    }, [selectedCategory, keyword])
+    }, [selectedCategory, keyword, services]) // <<<----Figyelem. Azért nem töltötte be kezdéskor a termékeket mert nem vol itt a services
 
     const renderCategoryItem = ({item, index}) =>{
         return(

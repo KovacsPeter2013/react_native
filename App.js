@@ -1,120 +1,49 @@
-import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, View,Image, ScrollView } from 'react-native';
-import Splash from './src/screens/auth/Splash';
-import Signup from './src/screens/auth/Signup';
-import Signin from './src/screens/auth/Signin';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { colors } from './src/utils/colors';
+import React, { useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from './src/screens/app/Home';
-import Favorite from './src/screens/app/Favorite';
-import Profil from './src/screens/app/Profil';
-import ProductDetails from './src/screens/app/ProductDetails';
-import Settings from './src/screens/app/Settings';
+import Routes from './Routes';
 
 
-
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-
-
-
-function MyTabs() {
-  return (
-    <Tab.Navigator
-    screenOptions={({ route }) => ({
-      tabBarIcon: ({ focused, color, size }) => {
-        let icon;
-
-        if (route.name === 'Kezdőlap') {
-          icon = focused
-            ? require('./src/assets/tabs/home_active.png')
-            : require('./src/assets/tabs/home.png')
-        } else if (route.name === 'Profil') {
-          icon = focused 
-          ? require('./src/assets/tabs/profile_active.png')
-           : require('./src/assets/tabs/profile.png')
-        }else if (route.name === 'Kedvencek') {
-          icon = focused 
-          ? require('./src/assets/tabs/bookmark_active.png')
-           : require('./src/assets/tabs/bookmark.png')
-        }
-
-    
-      return <Image source={icon} style={{ width: 24, height: 24}}/>;
-      },
-      tabBarActiveTintColor: 'tomato',
-      tabBarInactiveTintColor: 'gray',
-      tabBarShowLabel: false,
-      tabBarStyle: {
-        borderTopColor : colors.lightGrey,
-        backgroundColor: "white"
-      
-      }
-    })}
-    
-    >
-      <Tab.Screen name="Kezdőlap" component={Home} options={{ headerShown: false}}/>
-      <Tab.Screen name="Kedvencek" component={Favorite} options={{ headerShown: false}} />
-      <Tab.Screen name="Profil" component={Profil}  options={{ headerShown: false}}/>
-      {/* <Tab.Screen name="Beállítások" component={Settings}  options={{ headerShown: false}}/> */}
-      
-    </Tab.Navigator>
-  );
-}
+export const UserContext = React.createContext();
+export const ProfileContext = React.createContext();
+export const ServicesContext = React.createContext([]);
 
 
 const App = ()=> {
+  const [user, setUser] = useState();
+  const [profile, setProfile] = useState();
+  const [services, setServices] = useState();
 
-  const isSignedIn = true;
-  // A navigationcontainer install után felülírja itt ott a megjelenés színeit, ezért
-  // kell ez a theme const, hogy manipulálni lehessen a navigationcontainer style-t 
-  const theme = {
-    colors: {
-      background: colors.white
-    }
-  }
-  /*
-  return (
-    <SafeAreaProvider>
-      {isSignedIn ? (
-             <NavigationContainer>
-             <MyTabs />
-             <Stack.Screen name="ProductDetails" component={ProductDetails} />
-           </NavigationContainer>
-      ) : (
-        <NavigationContainer theme={theme}>
-          <Stack.Navigator>
-            <Stack.Screen name="Teszt" component={Splash} />
-            <Stack.Screen name="Bejelentkezés" component={Signin} />
-            <Stack.Screen name="Regisztráció" component={Signup} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      )}
-    </SafeAreaProvider>
-  );
-*/
   return (
   <SafeAreaProvider>
-  <NavigationContainer theme={theme}>
-    <Stack.Navigator>
-      {isSignedIn ? (
-        <>
-          <Stack.Screen name="Tabs" component={MyTabs} options={{ headerShown: false }} />
-          <Stack.Screen name="ProductDetails" component={ProductDetails} options={{ headerShown: false }} />
-        </>
-      ) : (
-        <>
-          <Stack.Screen name="Teszt" component={Splash} options={{ headerShown: false }} />
-          <Stack.Screen name="Bejelentkezés" component={Signin} options={{ headerShown: false }} />
-          <Stack.Screen name="Regisztráció" component={Signup} options={{ headerShown: false }} />
-        </>
-      )}
-    </Stack.Navigator>
-  </NavigationContainer>
+{/* Figyelem. Nem csak a user adatok,de maga a funkció is átpasszolható egy másik komponensnek, oldalnak.... */}
+  <UserContext.Provider value={{user, setUser}}>
+
+ {/* Figyelem, ProfileContext magyarázat:
+ A ProfileContext és a UserContext az alkalmazásban kontextusobjektumokat hoz létre, amelyek adatokat és 
+ függvényeket tesznek elérhetővé a komponensek számára. Ezek az adatok és függvények globálisan hozzáférhetők az alkalmazásban,
+és különböző komponensek közötti adatáramlást tesznek lehetővé.
+
+Az App.js fájlban a ProfileContext-ben és a UserContext-ben tárolt adatokat és függvényeket nyújtja az alkalmazás egészében. 
+A setProfile függvény segítségével az alkalmazás más részei beállíthatják és frissíthetik a profiladatokat.
+
+A Profil.js fájlban a ProfileContext-ból a useContext hook segítségével lekéri a profile és setProfile változókat. 
+Ezek az adatok és függvények hozzáférést biztosítanak a profiladatokhoz és azok frissítéséhez. 
+A useEffect hook használatával inicializálja a profiladatokat, amikor a komponens mountolódik.
+
+A Profil komponensben a profile adatokat a <Text> komponensekben jeleníti meg a profile?.name és profile?.email kifejezések segítségével.
+Ez azt jelenti, hogy ha a profile értéke nem null vagy undefined, akkor megjeleníti a nevet és az e-mailt.
+ A profile adatokat az await getProfile() hívással kéri le az API-tól, majd a setProfile függvényt használja 
+ az adatok beállítására a ProfileContext-ben.
+
+Ezáltal a ProfileContext biztosítja az adatáramlást az App.js és a Profil.js között, 
+lehetővé téve a profiladatok lekérését és megjelenítését a Profil komponensben. */}
+
+    <ProfileContext.Provider value={{profile, setProfile}}>
+    <ServicesContext.Provider value={{services, setServices}}>
+      <Routes />
+   </ServicesContext.Provider>
+   </ProfileContext.Provider>
+  </UserContext.Provider>
 </SafeAreaProvider>
  );
 }
